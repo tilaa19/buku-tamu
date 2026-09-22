@@ -59,7 +59,18 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
 
+<!-- Page Heading -->
+<h1 class="h3 mb-4 text-gray-800">Buku Tamu</h1>
 
+<script>
+    $(document).ready(function() {
+        window.setTimeout(function() {
+            $(".alert").fadeTo(500, 0).slideUp(500, function() {
+                $(this).remove();
+            });
+        }, 4000);
+    });
+</script>
 </body>
 
 </html>
