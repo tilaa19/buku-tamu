@@ -39,9 +39,9 @@ if (isset($pesan)) {
 
         <div class="card-header py-3">
             <button type="button"
-                    class="btn btn-primary btn-icon-split"
-                    data-toggle="modal"
-                    data-target="#tambahModal">
+                class="btn btn-primary btn-icon-split"
+                data-toggle="modal"
+                data-target="#tambahModal">
 
                 <span class="icon text-white-50">
                     <i class="fas fa-plus"></i>
@@ -56,9 +56,9 @@ if (isset($pesan)) {
             <div class="table-responsive">
 
                 <table class="table table-bordered"
-                       id="dataTable"
-                       width="100%"
-                       cellspacing="0">
+                    id="dataTable"
+                    width="100%"
+                    cellspacing="0">
 
                     <thead>
                         <tr>
@@ -89,9 +89,7 @@ if (isset($pesan)) {
                                 <td><?= $tamu['kepentingan']; ?></td>
 
                                 <td>
-                                    <button class="btn btn-success" type="button">
-                                        Ubah
-                                    </button>
+                                    <a class="btn btn-success" href="edit-tamu.php?id=<?=  $tamu['id']?>">Ubah</a>
 
                                     <button class="btn btn-danger" type="button">
                                         Hapus
@@ -113,12 +111,12 @@ if (isset($pesan)) {
 
 </div>
 
-<!-- Modal -->
+<!-- Modal Tambah -->
 <div class="modal fade"
-     id="tambahModal"
-     tabindex="-1"
-     aria-labelledby="tambahModalLabel"
-     aria-hidden="true">
+    id="tambahModal"
+    tabindex="-1"
+    aria-labelledby="tambahModalLabel"
+    aria-hidden="true">
 
     <div class="modal-dialog">
 
@@ -131,9 +129,9 @@ if (isset($pesan)) {
                 </h5>
 
                 <button type="button"
-                        class="close"
-                        data-dismiss="modal"
-                        aria-label="Close">
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close">
 
                     <span aria-hidden="true">&times;</span>
 
@@ -141,99 +139,99 @@ if (isset($pesan)) {
 
             </div>
 
-                <div class="modal-body">
+            <div class="modal-body">
 
-                    <div class="form-group row">
-                        <label for="nama_tamu"
-                               class="col-sm-3 col-form-label">
-                            Nama Tamu
-                        </label>
+                <div class="form-group row">
+                    <label for="nama_tamu"
+                        class="col-sm-3 col-form-label">
+                        Nama Tamu
+                    </label>
 
-                        <div class="col-sm-8">
-                            <input type="text"
-                                   class="form-control"
-                                   id="nama_tamu"
-                                   name="nama_tamu"
-                                   required>
-                        </div>
+                    <div class="col-sm-8">
+                        <input type="text"
+                            class="form-control"
+                            id="nama_tamu"
+                            name="nama_tamu"
+                            required>
                     </div>
-
-                    <div class="form-group row">
-                        <label for="alamat"
-                               class="col-sm-3 col-form-label">
-                            Alamat
-                        </label>
-
-                        <div class="col-sm-8">
-                            <textarea class="form-control"
-                                      id="alamat"
-                                      name="alamat"
-                                      required></textarea>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="no_hp"
-                               class="col-sm-3 col-form-label">
-                            No. Telepon
-                        </label>
-
-                        <div class="col-sm-8">
-                            <input type="text"
-                                   class="form-control"
-                                   id="no_hp"
-                                   name="no_hp"
-                                   required>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="bertemu"
-                               class="col-sm-3 col-form-label">
-                            Bertemu dg.
-                        </label>
-
-                        <div class="col-sm-8">
-                            <input type="text"
-                                   class="form-control"
-                                   id="bertemu"
-                                   name="bertemu"
-                                   required>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="kepentingan"
-                               class="col-sm-3 col-form-label">
-                            Kepentingan
-                        </label>
-
-                        <div class="col-sm-8">
-                            <input type="text"
-                                   class="form-control"
-                                   id="kepentingan"
-                                   name="kepentingan"
-                                   required>
-                        </div>
-                    </div>
-
                 </div>
 
-                <div class="modal-footer">
+                <div class="form-group row">
+                    <label for="alamat"
+                        class="col-sm-3 col-form-label">
+                        Alamat
+                    </label>
 
-                    <button type="button"
-                            class="btn btn-secondary"
-                            data-dismiss="modal">
-                        Keluar
-                    </button>
-
-                    <button type="submit"
-                            name="simpan"
-                            class="btn btn-primary">
-                        Simpan
-                    </button>
-
+                    <div class="col-sm-8">
+                        <textarea class="form-control"
+                            id="alamat"
+                            name="alamat"
+                            required></textarea>
+                    </div>
                 </div>
+
+                <div class="form-group row">
+                    <label for="no_hp"
+                        class="col-sm-3 col-form-label">
+                        No. Telepon
+                    </label>
+
+                    <div class="col-sm-8">
+                        <input type="text"
+                            class="form-control"
+                            id="no_hp"
+                            name="no_hp"
+                            required>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="bertemu"
+                        class="col-sm-3 col-form-label">
+                        Bertemu dg.
+                    </label>
+
+                    <div class="col-sm-8">
+                        <input type="text"
+                            class="form-control"
+                            id="bertemu"
+                            name="bertemu"
+                            required>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="kepentingan"
+                        class="col-sm-3 col-form-label">
+                        Kepentingan
+                    </label>
+
+                    <div class="col-sm-8">
+                        <input type="text"
+                            class="form-control"
+                            id="kepentingan"
+                            name="kepentingan"
+                            required>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal">
+                    Keluar
+                </button>
+
+                <button type="submit"
+                    name="simpan"
+                    class="btn btn-primary">
+                    Simpan
+                </button>
+
+            </div>
 
             </form>
 

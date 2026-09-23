@@ -52,12 +52,15 @@
     <!-- Custom scripts for all pages-->
     <script src="assets/js/sb-admin-2.min.js"></script>
 
-    <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+   <!-- DataTables JavaScript -->
+<script src="assets/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="js/demo/datatables-demo.js"></script>
+<script>
+$(document).ready(function() {
+    $('#dataTable').DataTable();
+});
+</script>
 
 <!-- Page Heading -->
 <h1 class="h3 mb-4 text-gray-800">Buku Tamu</h1>
@@ -71,6 +74,13 @@
         }, 4000);
     });
 </script>
+<style>
+.dataTables_wrapper .dataTables_paginate {
+    float: right !important;
+    text-align: right !important;
+    margin-top: 10px;
+}
+</style>
 </body>
 
 </html>
