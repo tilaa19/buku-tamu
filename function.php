@@ -115,3 +115,28 @@ function hapus_tamu($id)
 
     return mysqli_affected_rows($koneksi);
 }   
+
+// =========================
+// FUNCTION TAMBAH DATA USER
+// =========================
+function tambah_user($data)
+{
+    global $koneksi;
+
+    $username = htmlspecialchars($data['username'] ?? '');
+    $password = password_hash($data['password'] ?? '', PASSWORD_DEFAULT);
+    $user_role = htmlspecialchars($data['user_role'] ?? '');
+
+    $query = "INSERT INTO users
+              (username, password, user_role)
+              VALUES
+              ('$username', '$password', '$user_role')";
+
+    $simpan = mysqli_query($koneksi, $query);
+
+    if (!$simpan) {
+        die("Gagal menyimpan data user: " . mysqli_error($koneksi));
+    }
+
+    return mysqli_affected_rows($koneksi);
+}
