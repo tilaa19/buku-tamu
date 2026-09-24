@@ -18,19 +18,19 @@ function query($query)
 
 
 // =========================
-// TAMBAH DATA TAMU
+// FUNCTION TAMBAH DATA TAMU
 // =========================
 function tambah_tamu($data)
 {
     global $koneksi;
 
-    // Cari ID terakhir
+    // Cari ID terakhir berdasarkan urutan panjang dan karakter agar format zt009 ke zt010 tidak berantakan
     $result = mysqli_query(
         $koneksi,
-        "SELECT id
-         FROM tamu
-         WHERE id LIKE 'zt%'
-         ORDER BY id DESC
+        "SELECT id 
+         FROM tamu 
+         WHERE id LIKE 'zt%' 
+         ORDER BY LENGTH(id) DESC, id DESC 
          LIMIT 1"
     );
 
@@ -46,37 +46,38 @@ function tambah_tamu($data)
     } else {
         $urutan = (int) substr($dataId['id'], 2);
         $urutan++;
-
         $kode = "zt" . sprintf("%03d", $urutan);
     }
 
     $tanggal = date("Y-m-d");
 
-    $nama_tamu = htmlspecialchars($data['nama_tamu']);
-    $alamat = htmlspecialchars($data['alamat']);
-    $no_hp = htmlspecialchars($data['no_hp']);
-    $bertemu = htmlspecialchars($data['bertemu']);
-    $kepentingan = htmlspecialchars($data['kepentingan']);
+    $nama_tamu   = htmlspecialchars($data['nama_tamu'] ?? '');
+    $alamat      = htmlspecialchars($data['alamat'] ?? '');
+    $no_hp       = htmlspecialchars($data['no_hp'] ?? '');
+    $bertemu     = htmlspecialchars($data['bertemu'] ?? '');
+    $kepentingan = htmlspecialchars($data['kepentingan'] ?? '');
 
-    $sql = "INSERT INTO tamu
+    $sql = "INSERT INTO tamu 
             (id, tanggal, nama_tamu, alamat, no_hp, bertemu, kepentingan)
-            VALUES
-            ('$kode',
-             '$tanggal',
-             '$nama_tamu',
-             '$alamat',
-             '$no_hp',
-             '$bertemu',
-             '$kepentingan')";
+            VALUES 
+            ('$kode', '$tanggal', '$nama_tamu', '$alamat', '$no_hp', '$bertemu', '$kepentingan')";
 
-    mysqli_query($koneksi, $sql);
+    // Eksekusi query dengan penanganan error
+    $simpan = mysqli_query($koneksi, $sql);
+
+    if (!$simpan) {
+        // Tampilkan pesan error jika simpan ke database gagal
+        die("Gagal menyimpan data ke Database: " . mysqli_error($koneksi));
+    }
 
     return mysqli_affected_rows($koneksi);
 }
 
 
-// function ubah data tamu
-function ubah_tamu($data)
+// =========================
+// FUNCTION UBAH DATA TAMU
+// =========================
+function ubah_tamu($data)   
 {
     global $koneksi;
 
@@ -99,3 +100,18 @@ function ubah_tamu($data)
 
     return mysqli_affected_rows($koneksi);
 }
+
+
+// =========================
+// FUNCTION HAPUS DATA TAMU
+// =========================
+function hapus_tamu($id)
+{
+    global $koneksi;
+
+    $query = "DELETE FROM tamu WHERE id = '$id'";
+
+    mysqli_query($koneksi, $query);
+
+    return mysqli_affected_rows($koneksi);
+}   

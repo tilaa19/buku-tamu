@@ -90,10 +90,10 @@ if (isset($pesan)) {
 
                                 <td>
                                     <a class="btn btn-success" href="edit-tamu.php?id=<?=  $tamu['id']?>">Ubah</a>
-
-                                    <button class="btn btn-danger" type="button">
-                                        Hapus
-                                    </button>
+                                    <a href="hapus-tamu.php?id=<?= $tamu['id'] ?>" 
+                                        class="btn btn-danger" 
+                                        onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus
+                                    </a>
                                 </td>
                             </tr>
 
@@ -122,118 +122,120 @@ if (isset($pesan)) {
 
         <div class="modal-content">
 
-            <div class="modal-header">
+            <form action="" method="POST">
 
-                <h5 class="modal-title" id="tambahModalLabel">
-                    Tambah Data Tamu
-                </h5>
+                <div class="modal-header">
 
-                <button type="button"
-                    class="close"
-                    data-dismiss="modal"
-                    aria-label="Close">
+                    <h5 class="modal-title" id="tambahModalLabel">
+                        Tambah Data Tamu
+                    </h5>
 
-                    <span aria-hidden="true">&times;</span>
+                    <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close">
 
-                </button>
+                        <span aria-hidden="true">&times;</span>
 
-            </div>
+                    </button>
 
-            <div class="modal-body">
-
-                <div class="form-group row">
-                    <label for="nama_tamu"
-                        class="col-sm-3 col-form-label">
-                        Nama Tamu
-                    </label>
-
-                    <div class="col-sm-8">
-                        <input type="text"
-                            class="form-control"
-                            id="nama_tamu"
-                            name="nama_tamu"
-                            required>
-                    </div>
                 </div>
 
-                <div class="form-group row">
-                    <label for="alamat"
-                        class="col-sm-3 col-form-label">
-                        Alamat
-                    </label>
+                <div class="modal-body">
 
-                    <div class="col-sm-8">
-                        <textarea class="form-control"
-                            id="alamat"
-                            name="alamat"
-                            required></textarea>
+                    <div class="form-group row">
+                        <label for="nama_tamu"
+                            class="col-sm-3 col-form-label">
+                            Nama Tamu
+                        </label>
+
+                        <div class="col-sm-8">
+                            <input type="text"
+                                class="form-control"
+                                id="nama_tamu"
+                                name="nama_tamu"
+                                required>
+                        </div>
                     </div>
+
+                    <div class="form-group row">
+                        <label for="alamat"
+                            class="col-sm-3 col-form-label">
+                            Alamat
+                        </label>
+
+                        <div class="col-sm-8">
+                            <textarea class="form-control"
+                                id="alamat"
+                                name="alamat"
+                                required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="no_hp"
+                            class="col-sm-3 col-form-label">
+                            No. Telepon
+                        </label>
+
+                        <div class="col-sm-8">
+                            <input type="text"
+                                class="form-control"
+                                id="no_hp"
+                                name="no_hp"
+                                required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="bertemu"
+                            class="col-sm-3 col-form-label">
+                            Bertemu dg.
+                        </label>
+
+                        <div class="col-sm-8">
+                            <input type="text"
+                                class="form-control"
+                                id="bertemu"
+                                name="bertemu"
+                                required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="kepentingan"
+                            class="col-sm-3 col-form-label">
+                            Kepentingan
+                        </label>
+
+                        <div class="col-sm-8">
+                            <input type="text"
+                                class="form-control"
+                                id="kepentingan"
+                                name="kepentingan"
+                                required>
+                        </div>
+                    </div>
+
                 </div>
 
-                <div class="form-group row">
-                    <label for="no_hp"
-                        class="col-sm-3 col-form-label">
-                        No. Telepon
-                    </label>
+                <div class="modal-footer">
 
-                    <div class="col-sm-8">
-                        <input type="text"
-                            class="form-control"
-                            id="no_hp"
-                            name="no_hp"
-                            required>
-                    </div>
+                    <button type="button"
+                        class="btn btn-secondary"
+                        data-dismiss="modal">
+                        Keluar
+                    </button>
+
+                    <button type="submit"
+                        name="simpan"
+                        class="btn btn-primary">
+                        Simpan
+                    </button>
+
                 </div>
 
-                <div class="form-group row">
-                    <label for="bertemu"
-                        class="col-sm-3 col-form-label">
-                        Bertemu dg.
-                    </label>
-
-                    <div class="col-sm-8">
-                        <input type="text"
-                            class="form-control"
-                            id="bertemu"
-                            name="bertemu"
-                            required>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="kepentingan"
-                        class="col-sm-3 col-form-label">
-                        Kepentingan
-                    </label>
-
-                    <div class="col-sm-8">
-                        <input type="text"
-                            class="form-control"
-                            id="kepentingan"
-                            name="kepentingan"
-                            required>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="modal-footer">
-
-                <button type="button"
-                    class="btn btn-secondary"
-                    data-dismiss="modal">
-                    Keluar
-                </button>
-
-                <button type="submit"
-                    name="simpan"
-                    class="btn btn-primary">
-                    Simpan
-                </button>
-
-            </div>
-
-            </form>
+            </form> <!-- TAG FORM PENUTUP DI SINI -->
 
         </div>
 
