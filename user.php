@@ -5,40 +5,69 @@ require_once __DIR__ . '/koneksi.php';
 
 include_once __DIR__ . '/templates/header.php';
 
-// Jika tombol simpan ditekan
+// mengambil data dari tabel users dengan kode terbesar
+$query = mysqli_query($koneksi, "SELECT max(id_user) as kodeTerbesar FROM users");
+$data = mysqli_fetch_array($query);
+$kodeuser = $data['kodeTerbesar'];
+
+// mengambil angka dari kode terbesar, menggunakan fungsi substr dan diubah ke integer dengan (int)
+$urutan = (int) substr($kodeuser, 3, 2);
+
+// nomor yang diambil akan ditambah 1 untuk menentukan nomor urut berikutnya
+$urutan++;
+
+// membuat kode user baru dengan awalan "usr" dan nomor urut 2 digit (misal: usr01)
+$huruf = "usr";
+$kodeuser = $huruf . sprintf("%02s", $urutan);
+
+// =========================
+// PROSES TAMBAH USER
+// =========================
 if (isset($_POST['simpan'])) {
-    if (tambah_tamu($_POST) > 0) {
+
+    if (tambah_user($_POST) > 0) {
+
         $pesan = '<div class="alert alert-success" role="alert">
-                    Data berhasil disimpan!
+                    Data user berhasil disimpan!
                   </div>';
     } else {
+
         $pesan = '<div class="alert alert-danger" role="alert">
-                    Data gagal disimpan!
+                    Data user gagal disimpan!
                   </div>';
     }
 }
 
-$buku_tamu = query("SELECT * FROM tamu");
+
+// =========================
+// AMBIL DATA USER
+// =========================
+$users = query("SELECT * FROM users");
 
 ?>
 
 <!-- Page Heading -->
 <h1 class="h3 mb-4 text-gray-800">Data User</h1>
 
-<?php
-// tampilkan notifikasi
-if (isset($pesan)) {
-    echo $pesan;
-}
-?>
+
+<!-- Notifikasi -->
+<?php if (isset($pesan)) : ?>
+
+    <?= $pesan ?>
+
+<?php endif; ?>
+
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
     <div class="card shadow mb-4">
 
+        <!-- Card Header -->
         <div class="card-header py-3">
-            <button type="button"
+
+            <button
+                type="button"
                 class="btn btn-primary btn-icon-split"
                 data-toggle="modal"
                 data-target="#tambahModal">
@@ -47,15 +76,20 @@ if (isset($pesan)) {
                     <i class="fas fa-plus"></i>
                 </span>
 
-                <span class="text">Data User</span>
+                <span class="text">Tambah User</span>
+
             </button>
+
         </div>
 
+
+        <!-- Card Body -->
         <div class="card-body">
 
             <div class="table-responsive">
 
-                <table class="table table-bordered"
+                <table
+                    class="table table-bordered"
                     id="dataTable"
                     width="100%"
                     cellspacing="0">
@@ -64,28 +98,65 @@ if (isset($pesan)) {
                         <tr>
                             <th>No</th>
                             <th>Username</th>
-                            <th>Nama Tamu</th>
-                            <th>User role</th>
+                            <th>User Role</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
 
+
                     <tbody>
 
-                        <?php $no = 1;
-                        $users = query("SELECT * FROM users");
-                        foreach ($users as $user) : ?>
+                        <?php
+                        $no = 1;
+
+                        foreach ($users as $user) :
+                        ?>
 
                             <tr>
-                                <td><?= $no++; ?></td>
-                                <td><?= $user['username']; ?></td>
-                                <td><?= $user['user_role']; ?></td>
-            
+
+                                <!-- Nomor -->
                                 <td>
-                                    <a class="btn btn-success" href="edit-tamu.php?id=<?=  $user['id_user']?>">Ubah</a>
-                                    <a onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')" class="btn btn-danger"
-                                    href="hapus-user.php?id=<?= $user['id_user'] ?>"></a>
+                                    <?= $no++; ?>
                                 </td>
+
+
+                                <!-- Username -->
+                                <td>
+                                    <?= htmlspecialchars($user['username']); ?>
+                                </td>
+
+
+                                <!-- User Role -->
+                                <td>
+                                    <?= htmlspecialchars($user['user_role']); ?>
+                                </td>
+
+
+                                <!-- Aksi -->
+                                <td>
+
+                                    <!-- Tombol Ubah -->
+                                    <a
+                                        class="btn btn-success"
+                                        href="edit-user.php?id=<?= $user['id_user']; ?>">
+
+                                        Ubah
+
+                                    </a>
+
+
+                                    <!-- Tombol Hapus -->
+                                    <a
+                                        onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
+                                        class="btn btn-danger"
+                                        href="hapus-user.php?id=<?= $user['id_user']; ?>">
+
+                                        Hapus
+
+                                    </a>
+
+                                </td>
+
                             </tr>
 
                         <?php endforeach; ?>
@@ -102,8 +173,14 @@ if (isset($pesan)) {
 
 </div>
 
-<!-- Modal Tambah -->
-<div class="modal fade"
+
+
+<!-- ===================================================== -->
+<!-- MODAL TAMBAH USER -->
+<!-- ===================================================== -->
+
+<div
+    class="modal fade"
     id="tambahModal"
     tabindex="-1"
     aria-labelledby="tambahModalLabel"
@@ -113,120 +190,166 @@ if (isset($pesan)) {
 
         <div class="modal-content">
 
+
+            <!-- Form -->
             <form action="" method="POST">
 
+
+                <!-- Modal Header -->
                 <div class="modal-header">
 
-                    <h5 class="modal-title" id="tambahModalLabel">
-                        Tambah Data Tamu
+                    <h5
+                        class="modal-title"
+                        id="tambahModalLabel">
+
+                        Tambah Data User
+
                     </h5>
 
-                    <button type="button"
+
+                    <button
+                        type="button"
                         class="close"
                         data-dismiss="modal"
                         aria-label="Close">
 
-                        <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
 
                     </button>
 
                 </div>
 
+
+
+                <!-- Modal Body -->
                 <div class="modal-body">
 
+
+                    <!-- Username -->
                     <div class="form-group row">
-                        <label for="nama_tamu"
+
+                        <label
+                            for="username"
                             class="col-sm-3 col-form-label">
-                            Nama Tamu
+
+                            Username
+
                         </label>
 
+
                         <div class="col-sm-8">
-                            <input type="text"
+
+                            <input
+                                type="text"
                                 class="form-control"
-                                id="nama_tamu"
-                                name="nama_tamu"
+                                id="username"
+                                name="username"
                                 required>
+
                         </div>
+
                     </div>
 
+
+
+                    <!-- Password -->
                     <div class="form-group row">
-                        <label for="alamat"
+
+                        <label
+                            for="password"
                             class="col-sm-3 col-form-label">
-                            Alamat
+
+                            Password
+
                         </label>
 
-                        <div class="col-sm-8">
-                            <textarea class="form-control"
-                                id="alamat"
-                                name="alamat"
-                                required></textarea>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="no_hp"
-                            class="col-sm-3 col-form-label">
-                            No. Telepon
-                        </label>
 
                         <div class="col-sm-8">
-                            <input type="text"
+
+                            <input
+                                type="password"
                                 class="form-control"
-                                id="no_hp"
-                                name="no_hp"
+                                id="password"
+                                name="password"
                                 required>
+
                         </div>
+
                     </div>
 
+
+
+                    <!-- User Role -->
                     <div class="form-group row">
-                        <label for="bertemu"
+
+                        <label
+                            for="user_role"
                             class="col-sm-3 col-form-label">
-                            Bertemu dg.
+
+                            User Role
+
                         </label>
 
-                        <div class="col-sm-8">
-                            <input type="text"
-                                class="form-control"
-                                id="bertemu"
-                                name="bertemu"
-                                required>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="kepentingan"
-                            class="col-sm-3 col-form-label">
-                            Kepentingan
-                        </label>
 
                         <div class="col-sm-8">
-                            <input type="text"
+
+                            <select
                                 class="form-control"
-                                id="kepentingan"
-                                name="kepentingan"
+                                id="user_role"
+                                name="user_role"
                                 required>
+
+                                <option value="">
+                                    -- Pilih Role --
+                                </option>
+
+                                <option value="admin">
+                                    Administrator
+                                </option>
+
+                                <option value="operator">
+                                    Operator
+                                </option>
+
+                            </select>
+
                         </div>
+
                     </div>
+
 
                 </div>
 
+
+
+                <!-- Modal Footer -->
                 <div class="modal-footer">
 
-                    <button type="button"
+                    <button
+                        type="button"
                         class="btn btn-secondary"
                         data-dismiss="modal">
+
                         Keluar
+
                     </button>
 
-                    <button type="submit"
+
+                    <button
+                        type="submit"
                         name="simpan"
                         class="btn btn-primary">
+
                         Simpan
+
                     </button>
 
                 </div>
 
-            </form> <!-- TAG FORM PENUTUP DI SINI -->
+
+            </form>
 
         </div>
 
@@ -234,6 +357,9 @@ if (isset($pesan)) {
 
 </div>
 
+
 <?php
+
 include_once __DIR__ . '/templates/footer.php';
+
 ?>
