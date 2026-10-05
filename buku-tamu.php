@@ -23,7 +23,7 @@ $buku_tamu = query("SELECT * FROM tamu");
 ?>
 
 <!-- Page Heading -->
-<h1 class="h3 mb-4 text-gray-800">Buku Tamu</h1>
+<h1 class="h3 mb-4 text-gray-800" style="margin-left: 30px;">Buku Tamu</h1>
 
 <?php
 // tampilkan notifikasi
@@ -89,11 +89,9 @@ if (isset($pesan)) {
                                 <td><?= $tamu['kepentingan']; ?></td>
 
                                 <td>
-                                    <a class="btn btn-success" href="edit-tamu.php?id=<?=  $tamu['id']?>">Ubah</a>
-                                    <a href="hapus-tamu.php?id=<?= $tamu['id'] ?>" 
-                                        class="btn btn-danger" 
-                                        onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus
-                                    </a>
+                                    <a class="btn btn-success" href="edit-tamu.php?id_tamu=<?=  $tamu['id_tamu']?>">Ubah</a>
+                                    <a onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')" class="btn btn-danger"
+                                    href="hapus-tamu.php?id_tamu=<?=  $tamu['id_tamu']?>">Hapus</a>
                                 </td>
                             </tr>
 

@@ -62,9 +62,6 @@ $(document).ready(function() {
 });
 </script>
 
-<!-- Page Heading -->
-<h1 class="h3 mb-4 text-gray-800">Buku Tamu</h1>
-
 <script>
     $(document).ready(function() {
         window.setTimeout(function() {

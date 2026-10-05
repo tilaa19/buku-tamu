@@ -3,15 +3,15 @@
 require_once __DIR__ . '/function.php';
 
 // cek apakah ada id di URL
-if (!isset($_GET['id']) || $_GET['id'] == '') {
+if (!isset($_GET['id_tamu']) || $_GET['id_tamu'] == '') {
     header('Location: buku-tamu.php');
     exit;
 }
 
-$id = $_GET['id'];
+$id_tamu = $_GET['id_tamu'];
 
 // ambil data tamu
-$data = query("SELECT * FROM tamu WHERE id = '$id'");
+$data = query("SELECT * FROM tamu WHERE id_tamu = '$id_tamu'");
 
 // cek apakah data ditemukan
 if (empty($data)) {
@@ -56,7 +56,7 @@ include_once __DIR__ . '/templates/header.php';
 
         <div class="card-body">
             <form method="post" action="">
-    <input type="hidden" name="id" value="<?= $id?>">
+    <input type="hidden" name="id_tamu" value="<?= $id_tamu?>">
 
     <div class="form-group row">
         <label for="nama_tamu" class="col-sm-3 col-form-label">
