@@ -1,30 +1,19 @@
 <?php
-
+//panggil file function.php
 require_once __DIR__ . '/function.php';
 
+//jika ada id 
 if (isset($_GET['id'])) {
-
     $id = $_GET['id'];
-
-    echo "ID yang diterima: " . htmlspecialchars($id) . "<br>";
-
-    $hasil = hapus_tamu($id);
-
-    echo "Hasil hapus: " . $hasil . "<br>";
-
-    if ($hasil > 0) {
-        echo "<script>
-                alert('Data Berhasil dihapus!');
-                window.location.href='buku-tamu.php';
-              </script>";
+    if (hapus_tamu($id) > 0) {
+       //jika data berhasil di hapus maka akan muncul alert
+        echo "<script>alert('Data Berhasil dihapus!')</script>";
+       //redirect ke halaman buku-tamu.php
+        echo "<script>window.location.href='buku-tamu.php'</script>";
     } else {
-        echo "<script>
-                alert('Data Gagal dihapus!');
-                window.location.href='buku-tamu.php';
-              </script>";
+        //jika gagal di hapus
+        echo "<script>alert('Data Gagal dihapus!')</script>";
     }
-
-} else {
-    echo "ID tidak ditemukan!";
 }
+
 ?>

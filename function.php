@@ -126,18 +126,21 @@ function hapus_tamu($id)
 // =========================
 // FUNCTION TAMBAH DATA USER
 // =========================
-function tambah_user($data){
+function tambah_user($data)
+{
     global $koneksi;
 
-    $kode        = htmlspecialchars($data["id_user"]);
-    $username    = htmlspecialchars($data["username"]);
-    $password    = htmlspecialchars($data["password"]);
-    $user_role   = htmlspecialchars($data["user_role"]);
+    $kode      = htmlspecialchars($data["id_user"] ?? '');
+    $username  = htmlspecialchars($data["username"] ?? '');
+    $password  = htmlspecialchars($data["password"] ?? '');
+    $user_role = htmlspecialchars($data["user_role"] ?? '');
 
-    // Enkripsi password dengan password_hash
     $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
-    $query = "INSERT INTO users VALUES ('$kode','$username','$password_hash','$user_role')";
+    $query = "INSERT INTO users
+              (id_user, username, password, user_role)
+              VALUES
+              ('$kode', '$username', '$password_hash', '$user_role')";
 
     mysqli_query($koneksi, $query);
 
@@ -151,14 +154,12 @@ function ubah_user($data)
 {
     global $koneksi;
 
-    $id_user = $data['id_user'];
-    $username = $data['username'];
-    $password = $data['password'];
-    $user_role = $data['user_role'];
+    $id_user = htmlspecialchars($data['id_user']);
+    $username = htmlspecialchars($data['username']);
+    $user_role = htmlspecialchars($data['user_role']);
 
     $query = "UPDATE users SET
                 username = '$username',
-                password = '$password',
                 user_role = '$user_role'
               WHERE id_user = '$id_user'";
 
@@ -166,6 +167,7 @@ function ubah_user($data)
 
     return mysqli_affected_rows($koneksi);
 }
+
 
 // =========================
 // FUNCTION HAPUS DATA USER
@@ -180,3 +182,21 @@ function hapus_user($id) {
     return mysqli_affected_rows($koneksi);
 }
 
+// =========================
+// FUNCTION GANTI PASSWORD USER
+// =========================
+function ganti_password($data) {
+    global $koneksi;
+
+    $kode          = htmlspecialchars($data["id_user"]);
+    $password      = htmlspecialchars($data["password"]);
+    $password_hash = password_hash($password,PASSWORD_DEFAULT);
+
+    $query = "UPDATE users SET
+              password = '$password_hash'
+              WHERE id_user = '$kode'";
+
+    mysqli_query($koneksi, $query);
+
+    return mysqli_affected_rows($koneksi);
+}
