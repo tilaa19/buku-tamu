@@ -13,7 +13,7 @@ if($_SESSION['role'] != 'operator') {
 
 // Jika tombol simpan ditekan
 if (isset($_POST['simpan'])) {
-    if (tambah_tamu($_POST) > 0) {
+    if (tambah_tamu($_POST, $_FILES) > 0) {
         $pesan = '<div class="alert alert-success" role="alert">
                     Data berhasil disimpan!
                   </div>';
@@ -75,6 +75,7 @@ if (isset($pesan)) {
                             <th>No. Telp/HP</th>
                             <th>Bertemu Dengan</th>
                             <th>Kepentingan</th>
+                            <th>Gambar</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -93,6 +94,13 @@ if (isset($pesan)) {
                                 <td><?= $tamu['no_hp']; ?></td>
                                 <td><?= $tamu['bertemu']; ?></td>
                                 <td><?= $tamu['kepentingan']; ?></td>
+                                <td>
+                                    <img src="assets/upload_gambar/<?= $tamu['gambar']; ?>"
+                                        width="100"
+                                        height="100"
+                                        style="object-fit: cover;">
+                                </td>
+
 
                                 <td>
                                     <a class="btn btn-success" href="edit-tamu.php?id_tamu=<?=  $tamu['id_tamu']?>">Ubah</a>
@@ -126,7 +134,7 @@ if (isset($pesan)) {
 
         <div class="modal-content">
 
-            <form action="" method="POST">
+            <form action="" method="POST" enctype="multipart/form-data">
 
                 <div class="modal-header">
 
@@ -218,6 +226,14 @@ if (isset($pesan)) {
                                 id="kepentingan"
                                 name="kepentingan"
                                 required>
+                        </div>
+                    </div>
+                        
+                    <div class="form-group row">
+                        <label for="gambar" class="col-sm-3 col-form-label">Unggah Foto</label>
+                        <div class="custom-file col-sm-8">
+                            <input type="file" class="custom-file-input" id="gambar" name="gambar">
+                            <label class="custom-file-label" for="gambar">Choose file</label>
                         </div>
                     </div>
 

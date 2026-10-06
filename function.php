@@ -57,10 +57,16 @@ function tambah_tamu($data)
     $bertemu     = htmlspecialchars($data['bertemu'] ?? '');
     $kepentingan = htmlspecialchars($data['kepentingan'] ?? '');
 
+    // upload gambar
+    $gambar = uploadGambar();
+    if (!$gambar) {
+        return false;
+    }
+
     $sql = "INSERT INTO tamu 
-            (id_tamu, tanggal, nama_tamu, alamat, no_hp, bertemu, kepentingan)
+            (id_tamu, tanggal, nama_tamu, alamat, no_hp, bertemu, kepentingan, gambar)
             VALUES 
-            ('$kode', '$tanggal', '$nama_tamu', '$alamat', '$no_hp', '$bertemu', '$kepentingan')";
+            ('$kode', '$tanggal', '$nama_tamu', '$alamat', '$no_hp', '$bertemu', '$kepentingan', '$gambar')";
 
     // Eksekusi query dengan penanganan error
     $simpan = mysqli_query($koneksi, $sql);
@@ -199,4 +205,67 @@ function ganti_password($data) {
     mysqli_query($koneksi, $query);
 
     return mysqli_affected_rows($koneksi);
+}
+
+// =========================
+// FUNCTION UPLOAD GAMBAR
+// =========================
+function uploadGambar()
+{
+    // cek apakah file dikirim
+    if (!isset($_FILES['gambar'])) {
+        return false;
+    }
+
+    $namaFile   = $_FILES['gambar']['name'];
+    $ukuranFile = $_FILES['gambar']['size'];
+    $error      = $_FILES['gambar']['error'];
+    $tmpName    = $_FILES['gambar']['tmp_name'];
+
+    // cek apakah tidak ada gambar yang diunggah
+    if ($error === 4) {
+        echo "<script>
+                alert('Pilih gambar terlebih dahulu!');
+              </script>";
+        return false;
+    }
+
+    // ekstensi yang diperbolehkan
+    $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
+
+    $ekstensiGambar = explode('.', $namaFile);
+    $ekstensiGambar = strtolower(end($ekstensiGambar));
+
+    // cek ekstensi
+    if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
+        echo "<script>
+                alert('File yang diunggah harus JPG, JPEG, atau PNG!');
+              </script>";
+        return false;
+    }
+
+    // cek ukuran maksimal 1 MB
+    if ($ukuranFile > 1000000) {
+        echo "<script>
+                alert('Ukuran gambar terlalu besar! Maksimal 1 MB.');
+              </script>";
+        return false;
+    }
+
+    // nama file baru
+    $namaFileBaru = uniqid() . '.' . $ekstensiGambar;
+
+    // pastikan folder upload ada
+    $folder = __DIR__ . '/assets/upload_gambar/';
+
+    if (!is_dir($folder)) {
+        mkdir($folder, 0777, true);
+    }
+
+    // upload file
+    if (move_uploaded_file($tmpName, $folder . $namaFileBaru)) {
+        return $namaFileBaru;
+    }
+
+    return false;
 }
