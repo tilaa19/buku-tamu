@@ -5,6 +5,12 @@
 
     include_once __DIR__ . '/templates/header.php';
 
+    // pengecekan user role bukan admin maka tidak boleh mengakses halaman
+    if($_SESSION['role'] != 'admin') {
+        echo"<script>alert('anda tidak memiliki akses')</script>";
+        echo"<script>window.location.href='index.php'</script>";
+    }
+
     // Jika ada tombol simpan
     if (isset($_POST['simpan'])) {
         if (tambah_user($_POST) > 0) {
